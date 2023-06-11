@@ -1,36 +1,58 @@
 import React from "react";
 class CartItem extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      price: 999,
-      title: "Phone",
-      qty: 1,
-      img: "",
-    };
+  testing() {
+    const promise = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve("done");
+      }, 5000);
+    });
+    promise.then(() => {
+      // setState acts like async call
+      this.setState({ qty: this.state.qty + 1 });
+      console.log("state", this.state);
+    });
   }
-
   increaseQuantity = () => {
-    console.log("this", this.state);
     //setState form 1 update valuue
     //   this.setState({
     //     qty: this.state.qty + 1,
-    //   });
+    //   }, ()=>{
+
+    // });
     // };
-    // .............................................//
+    // .....................................................................//
     // setState form 2 - if prevState required use this
+    this.setState(
+      (prevState) => {
+        return {
+          qty: prevState.qty + 1,
+        };
+      },
+      () => {
+        console.log("this.state", this.state);
+      }
+    );
+  };
+  //...........................Decrease QuantityState........................//
+  decreaseQuantity = () => {
+    const { qty } = this.state;
+    if (qty === 0) {
+      return;
+    }
     this.setState((prevState) => {
       return {
-        qty: prevState.qty + 1,
+        qty: prevState.qty - 1,
       };
     });
   };
 
-
   render() {
-    const { price, title, qty } = this.state;
+    // console.log("render");
+    console.log("this.props", this.props);
+    const { price, title, qty } = this.props.product;
     return (
       <div className="cart-item">
+        {/* {this.props.jsx} */}
         <div className="left-block">
           <img style={styles.image} alt="img" />
         </div>
